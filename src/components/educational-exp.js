@@ -15,43 +15,49 @@ class EduExp extends Component {
     };
   };
 
+  showState = () => {console.log(this.state);};
+  
+  handleChange = (e) => {
+    this.setState({
+      userSchoolInfo: {
+        school: e.target.form.userSchool.value,
+        degree: e.target.form.userDegree.value,
+        start: e.target.form.userSchoolStart.value,
+        end: e.target.form.userSchoolEnd.value,
+      },
+    });
+  };
+
   handleSubmission = (e) => {
     e.preventDefault();
     this.setState({
-      userSchoolInfo: {
-        school: e.target.elements.userSchool.value,
-        degree: e.target.elements.userDegree.value,
-        start: e.target.elements.userSchoolStart.value,
-        end: e.target.elements.userSchoolEnd.value,
-      },
-      schoolPortfolio: [],
-    });
-    this.addNewSchool();
-  };
-
-  addNewSchool = (e) => {
-    this.setState({
       schoolPortfolio: this.state.schoolPortfolio.concat(this.state.userSchoolInfo),
     });
+    this.setState({
+      userSchoolInfo: {
+        school: "",
+        degree: "",
+        start: "",
+        end: "",
+      },
+    });
   };
 
-  showState = () => {console.log(this.state);};
-
   render() {
+    const {school,degree,start,end} = this.state.userSchoolInfo;
     return(
       <div className="eduExp">
-        <form onSubmit={this.handleSubmission}>
+        <form onChange={this.handleChange} onSubmit={this.handleSubmission}>
           <label htmlFor="userSchool">School:</label>
-          <input type="text" id="userSchool"/>
+          <input type="text" id="userSchool" value={school}/>
           <label htmlFor="userDegree">Degree:</label>
-          <input type="text" id="userDegree"/>
+          <input type="text" id="userDegree" value={degree}/>
           <label htmlFor="userSchoolStart">Start:</label>
-          <input type="date" id="userSchoolStart"/>
+          <input type="date" id="userSchoolStart" value={start}/>
           <label htmlFor="userSchoolEnd">End:</label>
-          <input type="date" id="userSchoolEnd"/>
+          <input type="date" id="userSchoolEnd" value={end}/>
           <button type="submit">Submit</button>
         </form>
-          <button onClick={this.addNewSchool}>Add School</button>
         <button onClick={this.showState}>Show EduExp's State</button>
       </div>
     );
